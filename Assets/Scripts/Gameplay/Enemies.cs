@@ -1,4 +1,7 @@
 public static class Enemies
 {
-    public static readonly Enemy BasicEnemy = new Enemy(1, 10);
+    public static Enemy CreateBasicEnemy()
+    {
+        return new Enemy(3, 10);
+    }
 }

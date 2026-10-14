@@ -1,4 +1,3 @@
-using System.Timers;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -10,31 +9,37 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
-        playerController.Shoot += Shoot;
-        weapon = Weapons.pistol;
+        weapon = Weapons.CreatePistol();
     }
+
+    private void OnEnable()
+    {
+        playerController.Shoot += Shoot;
+
+    }
+    private void OnDisable()
+    {
+        playerController.Shoot -= Shoot;
+    }
+
+    private float nextShotTime;
 
     public void Shoot()
     {
-        if (weapon.CanShoot)
+        if (Time.time < nextShotTime)
         {
-            weapon.CanShoot = false;
-            GameObject bullet = Instantiate((GameObject)Resources.Load("Projectile"), playerController.gameObject.transform.position, playerController.gameObject.transform.rotation);
-            Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-            bulletRb.linearVelocity = playerController.GetDirection().normalized * 20f;
-
-
-
-            //TODO FIX SCUFFED TIMER 
-            System.Timers.Timer timer = new System.Timers.Timer(weapon.ShootCD * 1000);
-            timer.Elapsed += CooldownFinished;
-            timer.Enabled = true;
-
-
+            return;
         }
+
+        nextShotTime = Time.time + weapon.ShootCD;
+
+
+        GameObject bullet = Instantiate((GameObject)Resources.Load("Projectile"), playerController.gameObject.transform.position, playerController.gameObject.transform.rotation);
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+        bulletRb.linearVelocity = playerController.GetDirection().normalized * 20f;
+
+
+
     }
-    private void CooldownFinished(object sender, ElapsedEventArgs e)
-    {
-        weapon.CanShoot = true;
-    }
+
 }

@@ -21,26 +21,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(moveInput.x, moveInput.y, 0) * Time.deltaTime * speed;
+        transform.position += (Vector3)moveInput * Time.deltaTime * speed;
         RotateTowards();
-
-
 
 
     }
     private void OnMove(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        moveInput = value.Get<Vector2>().normalized;
     }
-    private Vector3 GetMousePos()
+    private Vector2 GetMousePos()
     {
-        Vector3 mousepos = Mouse.current.position.ReadValue();
+        Vector2 mousepos = Mouse.current.position.ReadValue();
 
         return Camera.main.ScreenToWorldPoint(mousepos);
     }
     private void RotateTowards()
     {
-        direction = (GetMousePos() - transform.position);
+        direction = ((Vector3)GetMousePos() - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }

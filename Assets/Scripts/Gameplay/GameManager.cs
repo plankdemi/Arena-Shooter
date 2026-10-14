@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         InitialEnemyCount = 3;
         SpawnController.SpawnEnemies(InitialEnemyCount);
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        EnemyCount = enemies.Length;
+        EnemyCount = enemies.Length + 1;
 
     }
     private void Update()
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateHealthUI()
     {
-        health.text = "HEALTH:" + player.GetComponent<PlayerController>().player.Health;
+        health.text = "HEALTH: " + player.GetComponent<PlayerController>().player.Health;
     }
     private void UpdateScoreUI()
     {

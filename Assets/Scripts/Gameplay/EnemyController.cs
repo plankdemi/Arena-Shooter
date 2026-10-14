@@ -7,11 +7,11 @@ public class EnemyController : MonoBehaviour
     public GameObject player;
     public event Action EnemyKilled;
     public float speed = 3;
-    Vector3 direction;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Vector2 direction;
+
     void Awake()
     {
-        enemy = Enemies.BasicEnemy;
+        enemy = Enemies.CreateBasicEnemy();
         player = GameObject.FindGameObjectWithTag("Player");
 
 
@@ -22,8 +22,8 @@ public class EnemyController : MonoBehaviour
     {
         if (player)
         {
-            direction = player.transform.position - transform.position;
-            transform.position += direction * Time.deltaTime * speed;
+            direction = (player.transform.position - transform.position).normalized;
+            transform.position += (Vector3)direction * Time.deltaTime * speed;
         }
 
 

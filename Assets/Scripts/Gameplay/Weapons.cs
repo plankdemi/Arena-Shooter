@@ -1,4 +1,7 @@
 public static class Weapons
 {
-    public static Weapon pistol = new Weapon("Glock", Weapon.WeaponType.pistol);
+    public static Weapon CreatePistol()
+    {
+        return new Weapon("Glock", Weapon.WeaponType.pistol);
+    }
 }
