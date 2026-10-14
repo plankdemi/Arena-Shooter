@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     Enemy enemy;
     public GameObject player;
+    public event Action EnemyKilled;
     public float speed = 3;
     Vector3 direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +26,7 @@ public class EnemyController : MonoBehaviour
             transform.position += direction * Time.deltaTime * speed;
         }
 
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,6 +35,8 @@ public class EnemyController : MonoBehaviour
             enemy.LowerHealth();
             if (enemy.Health <= 0)
             {
+                player.GetComponent<PlayerController>().player.IncreaseScore(enemy.ScoreValue);
+                EnemyKilled?.Invoke();
                 Destroy(gameObject);
             }
         }

@@ -14,7 +14,10 @@ public class Player
     {
         --Health;
     }
-
+    public void IncreaseScore(int Score)
+    {
+        this.Score += Score;
+    }
 
 
 }
